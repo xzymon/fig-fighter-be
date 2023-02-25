@@ -1,0 +1,86 @@
+/* https://start.jhipster.tech/jdl-studio/ */
+entity TrainingPlan {
+	name String
+    description String
+}
+
+entity ActivityType {
+	name String
+    description String
+    staticFlag Boolean
+    equipmentFlag Boolean
+    defaultSeries Integer
+    defaultRepeats Integer
+    defaultDuration Integer
+    defaultWeight Integer
+    visualisationUrl String
+    bodyPart BodyPart
+}
+
+entity Equipment {
+	name String
+    description String
+}
+
+entity EquipmentKit {
+	quantity Integer
+}
+
+enum BodyPart {
+	BARKI,
+    NOGI,
+    PLECY,
+    BRZUCH,
+    BICEPS,
+    TRICEPS,
+    PRZEDRAMIE,
+    KLATKA
+}
+
+entity ActivitySeriesOrder {
+
+}
+
+entity Training {
+	executionTime Instant
+}
+
+entity Activity {
+
+}
+
+entity Series {
+	weight Integer
+    repeats Integer
+    duration Integer
+}
+
+relationship OneToOne {
+	ActivityType to EquipmentKit {equipmentKit}
+
+    ActivitySeriesOrder to Series {series}
+}
+
+relationship OneToMany {
+	ActivityType to ActivityType {alternatives}
+
+    Equipment to EquipmentKit {kit}
+
+    TrainingPlan to ActivityType {activities}
+
+    Training to Activity {activities}
+
+    ActivityType to Activity {realisations}
+
+    Activity to Series {series}
+
+    Training to ActivitySeriesOrder {seriesOrder}
+}
+
+relationship ManyToOne {
+	EquipmentKit to Equipment {equipment}
+
+    Activity to ActivityType {type}
+
+    Training to TrainingPlan {source}
+}
